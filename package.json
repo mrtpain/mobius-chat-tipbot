@@ -1,0 +1,25 @@
+{
+  "name": "@mobius-network/mobius-chat-tipbot",
+  "version": "0.1.0",
+  "description": "Mobius Chat Tipbot",
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn run lint",
+    "lint": "$(yarn bin)/eslint src"
+  },
+  "homepage": "https://github.com/mobius-network/mobius-chat-tipbot",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:mobius-network/mobius-chat-tipbot.git"
+  },
+  "bugs:": "https://github.com/mobius-network/mobius-chat-tipbot/issues",
+  "engines": {
+    "node": ">=8"
+  },
+  "main": "src/index.js",
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-plugin-import": "^2.7.0"
+  }
+}
