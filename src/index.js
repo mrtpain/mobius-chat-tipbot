@@ -1,12 +1,3 @@
-const express = require('express');
+const slack = require('./slack');
 
-const app = express();
-const port = process.env.PORT || 8000;
-
-app.get('/', (_, response) => {
-  response.send('It works!');
-});
-
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`); // eslint-disable-line
-});
+slack.run(process.env.SLACK_API_TOKEN);
