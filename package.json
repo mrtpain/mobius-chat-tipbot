@@ -4,8 +4,10 @@
   "description": "Mobius Chat Tipbot",
   "license": "MIT",
   "scripts": {
+    "start": "node src/index.js",
     "test": "yarn run lint",
-    "lint": "$(yarn bin)/eslint src"
+    "lint": "$(yarn bin)/eslint src",
+    "dev": "$(yarn bin)/nodemon $(yarn bin)/nf start"
   },
   "homepage": "https://github.com/mobius-network/mobius-chat-tipbot",
   "repository": {
@@ -20,6 +22,11 @@
   "devDependencies": {
     "eslint": "^4.8.0",
     "eslint-config-airbnb-base": "^12.0.1",
-    "eslint-plugin-import": "^2.7.0"
+    "eslint-plugin-import": "^2.7.0",
+    "foreman": "^2.0.0",
+    "nodemon": "^1.12.1"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
   }
 }
