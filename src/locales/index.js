@@ -4,7 +4,6 @@ const en = require('./en');
 
 i18next.init({
   lng: 'en',
-  debug: true,
   resources: {
     en,
   },

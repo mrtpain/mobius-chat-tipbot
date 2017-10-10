@@ -47,7 +47,7 @@ function run() {
   }
 
   async function onMessage(message) {
-    const { slackBotUserId } = redis.get(SLACK_BOT_USER_ID);
+    const slackBotUserId = await redis.get(SLACK_BOT_USER_ID);
 
     const data = { message, botId: slackBotUserId };
 
