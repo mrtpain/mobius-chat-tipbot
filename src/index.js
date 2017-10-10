@@ -1,3 +1,3 @@
-const slack = require('./slack');
+const slack = require('./services/slack');
 
-slack.run(process.env.SLACK_API_TOKEN);
+slack.run();

@@ -1,0 +1,13 @@
+const {
+  SLACK_API_TOKEN,
+  MOBIUS_API_TOKEN,
+  MOBIUS_TOKEN_UID,
+  REDIS_URL,
+} = process.env;
+
+module.exports = {
+  SLACK_API_TOKEN,
+  MOBIUS_API_TOKEN,
+  MOBIUS_TOKEN_UID,
+  REDIS_URL,
+};

@@ -56,3 +56,15 @@ test('getResponseChannel', (t) => {
   t.is(lib.getResponseChannel({ message: { channel: 'DIRECT' } }), 'DIRECT');
   t.is(lib.getResponseChannel({ message: { channel: 'CHANNEL' } }), 'CHANNEL');
 });
+
+test('parseUsers', (t) => {
+  const data = {
+    members: [
+      { id: 'SLACKBOT', name: 'slackbot', is_bot: false },
+      { id: 'USER', name: 'USER', is_bot: false },
+      { id: 'BOT', name: 'BOT', is_bot: true },
+    ],
+  };
+
+  t.is(lib.parseUsers(data), [{ id: 'USER' }]);
+});

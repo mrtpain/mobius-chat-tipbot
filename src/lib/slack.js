@@ -50,6 +50,16 @@ function getResponseChannel({ message: { channel } }) {
   return channel;
 }
 
+function parseUsers(data) {
+  const { members } = data;
+
+  if (!members || members.length === 0) return [];
+
+  return members
+    .filter(m => !m.is_bot && m.name !== 'slackbot')
+    .map(m => ({ id: m.id, name: `@${m.name}` }));
+}
+
 module.exports = {
   isBotMessage,
   isSelfMessage,
@@ -59,4 +69,5 @@ module.exports = {
   isValidMessage,
   getCommand,
   getResponseChannel,
+  parseUsers,
 };

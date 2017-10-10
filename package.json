@@ -28,6 +28,9 @@
     "nodemon": "^1.12.1"
   },
   "dependencies": {
+    "@mobius-network/mobius-node": "^1.0.3",
+    "i18next": "^10.0.0",
+    "redis": "^2.8.0",
     "slackbots": "^1.1.0"
   },
   "ava": {
