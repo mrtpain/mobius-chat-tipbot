@@ -3,8 +3,8 @@ const config = require('../config');
 const locales = require('../locales');
 const logger = require('../lib/logger');
 
-async function createAddresses(_, context) {
-  const users = await context.getUsersWithoutAddresses();
+async function addresses(_, context) {
+  const users = await context.getNewUsers();
 
   if (users.length === 0) {
     return {
@@ -37,4 +37,4 @@ async function createAddresses(_, context) {
   };
 }
 
-module.exports = createAddresses;
+module.exports = { addresses };

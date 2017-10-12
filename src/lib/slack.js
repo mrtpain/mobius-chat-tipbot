@@ -1,3 +1,5 @@
+const Command = require('./command');
+
 function botTag(botId) {
   return `<@${botId}>`;
 }
@@ -35,7 +37,7 @@ function isValidMessage(message, botId) {
   return false;
 }
 
-function getArgs(text, botId) {
+function parseMesage(text, botId) {
   const tag = botTag(botId);
   const lastIndex = text.lastIndexOf(tag);
 
@@ -60,11 +62,15 @@ function parseUsers(data) {
 }
 
 function convertMessageToCommand(message, botId) {
-  return {
+  const words = parseMesage(message.text, botId);
+
+  return new Command({
+    service: 'Slack',
     channelId: message.channel,
     senderId: message.user,
-    args: getArgs(message.text, botId),
-  };
+    name: words[0],
+    args: words.slice(1),
+  });
 }
 
 module.exports = {

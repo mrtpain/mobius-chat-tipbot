@@ -1,60 +1,37 @@
 const SlackBot = require('slackbots');
 
 const config = require('../config');
-const redis = require('./redis');
-const { slack, logger } = require('../lib');
-const { runCommand } = require('../commands');
+const slack = require('../lib/slack');
+const logger = require('../lib/logger');
 
-const SLACK_BOT_USER_ID = 'SLACK_BOT_USER_ID';
-const SLACK_USERS_ADDRESSES = 'SLACK_USERS_ADDRESSES';
+const SlackContext = require('../contexts/slack');
+const { run } = require('../commands');
 
-const bot = new SlackBot({
-  token: config.SLACK_API_TOKEN,
-  name: 'Mobius Chat Tipbot',
-});
+function start() {
+  const bot = new SlackBot({
+    token: config.SLACK_API_TOKEN,
+    name: 'Mobius Chat Tipbot',
+  });
 
-function run() {
-  const context = {
-    async getUsers() {
-      const users = slack.parseUsers(await bot.getUsers());
-
-      logger.log('USERS', users);
-
-      return users;
-    },
-
-    async getUsersWithoutAddresses() {
-      const users = await this.getUsers();
-      const createdUsers = await redis.hkeys(SLACK_USERS_ADDRESSES) || [];
-
-      return users.filter(u => !createdUsers.includes(u.id));
-    },
-
-    async getUserAddress(userId) {
-      return redis.hget(SLACK_USERS_ADDRESSES, userId);
-    },
-
-    setUserAddress(userId, address) {
-      redis.hsetnx(SLACK_USERS_ADDRESSES, userId, address);
-    },
-  };
+  const context = new SlackContext(bot);
 
   function onHello() {
     const { id } = bot.self;
-    redis.set(SLACK_BOT_USER_ID, id);
+
+    context.setBotId(id);
 
     logger.log('HELLO', id);
   }
 
   async function onMessage(message) {
     try {
-      const botId = await redis.get(SLACK_BOT_USER_ID);
+      const botId = await context.getBotId();
 
       if (slack.isValidMessage(message, botId)) {
         logger.log('MESSAGE', message);
 
         const command = slack.convertMessageToCommand(message, botId);
-        const response = await runCommand(command, context);
+        const response = await run(command, context);
 
         if (response && response.text) {
           bot.postMessage(command.channelId, response.text, {
@@ -74,5 +51,5 @@ function run() {
 }
 
 module.exports = {
-  run,
+  start,
 };

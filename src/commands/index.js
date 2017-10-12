@@ -1,30 +1,30 @@
 const help = require('./help');
 const unknown = require('./unknown');
-const createAddresses = require('./createAddresses');
-const getBlance = require('./getBalance');
+const balance = require('./balance');
+const create = require('./create');
 
-const { logger: { log } } = require('../lib');
+const logger = require('../lib/logger');
 
-function runCommand(command, context) {
-  log('COMMAND', command);
+function run(command, context) {
+  logger.log('COMMAND', command);
 
-  const [name, param] = command.args;
+  const { name, args } = command;
 
   if (name === 'help') {
     return help();
   }
 
   if (['b', 'bal', 'balance'].includes(name)) {
-    return getBlance(command, context);
+    return balance(command, context);
   }
 
-  if (name === 'create' && param === 'addresses') {
-    return createAddresses(command, context);
+  if (name === 'create') {
+    if (args[0] === 'addresses') return create.addresses(command, context);
   }
 
   return unknown();
 }
 
 module.exports = {
-  runCommand,
+  run,
 };
