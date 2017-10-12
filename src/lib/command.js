@@ -1,7 +1,8 @@
 function Command({
-  senderId, channelId, name, args,
+  service, senderId, channelId, name, args,
 }) {
   return {
+    service,
     senderId,
     channelId,
     name,

@@ -14,15 +14,21 @@ function SlackContext(bot) {
       return redis.get(BOT_ID);
     },
 
-    async getUsers() {
+    async getChatUsers() {
       return slack.parseUsers(await bot.getUsers());
     },
 
     async getNewUsers() {
-      const slackUsers = await this.getUsers();
+      const slackUsers = await this.getChatUsers();
       const storedUsers = await redis.hkeys(USERS_ADDRESSES) || [];
 
       return slackUsers.filter(u => !storedUsers.includes(u.id));
+    },
+
+    async getAllUsers() {
+      const users = await redis.hegtall(USERS_ADDRESSES) || {};
+
+      return users;
     },
 
     setUserAddress(userId, address) {
@@ -31,6 +37,10 @@ function SlackContext(bot) {
 
     async getUserAddress(userId) {
       return redis.hget(USERS_ADDRESSES, userId);
+    },
+
+    getUserTag(id) {
+      return `<@${id}>`;
     },
   };
 }

@@ -25,6 +25,12 @@ function hget(hash, key) {
   });
 }
 
+function hegtall(hash) {
+  return new Promise((resolve) => {
+    client.hgetall(hash, (error, result) => resolve(result));
+  });
+}
+
 function hkeys(hash) {
   return new Promise((resolve) => {
     client.hkeys(hash, (error, result) => resolve(result));
@@ -36,5 +42,6 @@ module.exports = {
   get,
   hsetnx,
   hget,
+  hegtall,
   hkeys,
 };

@@ -1,4 +1,5 @@
 const SlackBot = require('slackbots');
+const ent = require('ent');
 
 const config = require('../config');
 const slack = require('../lib/slack');
@@ -34,7 +35,7 @@ function start() {
         const response = await run(command, context);
 
         if (response && response.text) {
-          bot.postMessage(command.channelId, response.text, {
+          bot.postMessage(command.channelId, ent.decode(response.text), {
             link_names: true,
           });
         }
