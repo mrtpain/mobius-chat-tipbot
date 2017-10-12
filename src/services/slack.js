@@ -2,23 +2,23 @@ const SlackBot = require('slackbots');
 
 const config = require('../config');
 const redis = require('./redis');
-const { slack, logger: { log } } = require('../lib');
+const { slack, logger } = require('../lib');
 const { runCommand } = require('../commands');
 
 const SLACK_BOT_USER_ID = 'SLACK_BOT_USER_ID';
 const SLACK_USERS_ADDRESSES = 'SLACK_USERS_ADDRESSES';
 
-function run() {
-  const bot = new SlackBot({
-    token: config.SLACK_API_TOKEN,
-    name: 'Mobius Chat Tipbot',
-  });
+const bot = new SlackBot({
+  token: config.SLACK_API_TOKEN,
+  name: 'Mobius Chat Tipbot',
+});
 
+function run() {
   const context = {
     async getUsers() {
       const users = slack.parseUsers(await bot.getUsers());
 
-      log('USERS', users);
+      logger.log('USERS', users);
 
       return users;
     },
@@ -43,27 +43,27 @@ function run() {
     const { id } = bot.self;
     redis.set(SLACK_BOT_USER_ID, id);
 
-    log('HELLO', id);
+    logger.log('HELLO', id);
   }
 
   async function onMessage(message) {
-    const slackBotUserId = await redis.get(SLACK_BOT_USER_ID);
+    try {
+      const botId = await redis.get(SLACK_BOT_USER_ID);
 
-    const data = { message, botId: slackBotUserId };
+      if (slack.isValidMessage(message, botId)) {
+        logger.log('MESSAGE', message);
 
-    if (slack.isValidMessage(data)) {
-      log('MESSAGE', message);
+        const command = slack.convertMessageToCommand(message, botId);
+        const response = await runCommand(command, context);
 
-      const command = slack.getCommand(data);
-      const channel = slack.getResponseChannel(data);
-
-      const response = await runCommand(command, context);
-
-      if (response && response.text) {
-        bot.postMessage(channel, response.text, {
-          link_names: true,
-        });
+        if (response && response.text) {
+          bot.postMessage(command.channelId, response.text, {
+            link_names: true,
+          });
+        }
       }
+    } catch (e) {
+      logger.log('ERROR', e);
     }
   }
 

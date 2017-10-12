@@ -19,9 +19,9 @@ function get(key) {
   });
 }
 
-function hget(hash) {
+function hget(hash, key) {
   return new Promise((resolve) => {
-    client.hget(hash, (error, result) => resolve(result));
+    client.hget(hash, key, (error, result) => resolve(result));
   });
 }
 

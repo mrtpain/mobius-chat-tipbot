@@ -1,24 +1,39 @@
 const mobius = require('../services/mobius');
 const config = require('../config');
 const locales = require('../locales');
+const logger = require('../lib/logger');
 
-async function createAddresses(context) {
+async function createAddresses(_, context) {
   const users = await context.getUsersWithoutAddresses();
 
-  users.forEach(async (user) => {
-    const { id } = user;
-    const { address } = await mobius.tokens.createAddress({
-      tokenUid: config.MOBIUS_TOKEN_UID,
-      managed: true,
-    });
+  if (users.length === 0) {
+    return {
+      text: locales.t('commands.createAddresses.fail'),
+    };
+  }
 
-    context.setUserAddress(id, address);
+  const created = [];
+
+  users.forEach(async (user) => {
+    try {
+      const { id } = user;
+      const { address } = await mobius.tokens.createAddress({
+        tokenUid: config.MOBIUS_TOKEN_UID,
+        managed: true,
+      });
+
+      context.setUserAddress(id, address);
+
+      created.push(user);
+    } catch (e) {
+      logger.error(e);
+    }
   });
 
-  const names = users.map(u => u.name).join(', ');
+  const names = created.map(u => u.name).join(', ');
 
   return {
-    text: locales.t('commands.createAddresses', { names }),
+    text: locales.t('commands.createAddresses.success', { names }),
   };
 }
 

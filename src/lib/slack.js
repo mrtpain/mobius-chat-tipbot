@@ -2,40 +2,40 @@ function botTag(botId) {
   return `<@${botId}>`;
 }
 
-function isBotMessage({ message: { bot_id } }) {
+function isBotMessage({ bot_id }) {
   return Boolean(bot_id);
 }
 
-function isSelfMessage({ message: { user }, botId }) {
+function isSelfMessage({ user }, botId) {
   return Boolean(user && user === botId);
 }
 
-function isMessageWithText({ message: { text } }) {
+function isMessageWithText({ text }) {
   return Boolean(text);
 }
 
-function isDirectMessage({ message: { channel } }) {
+function isDirectMessage({ channel }) {
   return Boolean(channel && channel[0].toUpperCase() === 'D');
 }
 
-function isMentionMessage({ message: { text }, botId }) {
+function isMentionMessage({ text }, botId) {
   const re = new RegExp(botTag(botId), 'g');
 
   return re.test(text);
 }
 
-function isValidMessage(data) {
-  if (isBotMessage(data)) return false;
-  if (isSelfMessage(data)) return false;
-  if (!isMessageWithText(data)) return false;
+function isValidMessage(message, botId) {
+  if (isBotMessage(message)) return false;
+  if (isSelfMessage(message, botId)) return false;
+  if (!isMessageWithText(message)) return false;
 
-  if (isDirectMessage(data)) return true;
-  if (isMentionMessage(data)) return true;
+  if (isDirectMessage(message)) return true;
+  if (isMentionMessage(message, botId)) return true;
 
   return false;
 }
 
-function getCommand({ message: { text }, botId }) {
+function getArgs(text, botId) {
   const tag = botTag(botId);
   const lastIndex = text.lastIndexOf(tag);
 
@@ -43,11 +43,7 @@ function getCommand({ message: { text }, botId }) {
     ? text
     : text.slice(lastIndex).replace(tag, '');
 
-  return command.trim();
-}
-
-function getResponseChannel({ message: { channel } }) {
-  return channel;
+  return command.trim().split(/\W+/);
 }
 
 function parseUsers(data) {
@@ -57,17 +53,22 @@ function parseUsers(data) {
 
   return members
     .filter(m => !m.is_bot && m.name !== 'slackbot')
-    .map(m => ({ id: m.id, name: `@${m.name}` }));
+    .map(m => ({
+      id: m.id,
+      name: `@${m.name}`,
+    }));
+}
+
+function convertMessageToCommand(message, botId) {
+  return {
+    channelId: message.channel,
+    senderId: message.user,
+    args: getArgs(message.text, botId),
+  };
 }
 
 module.exports = {
-  isBotMessage,
-  isSelfMessage,
-  isMessageWithText,
-  isDirectMessage,
-  isMentionMessage,
-  isValidMessage,
-  getCommand,
-  getResponseChannel,
   parseUsers,
+  isValidMessage,
+  convertMessageToCommand,
 };
