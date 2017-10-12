@@ -24,7 +24,7 @@ function getTable(users, balances, tag) {
   const table = sortBy(mapUserToBalance(users, balances), ['balance']);
 
   const rows = table.map(({ userId, balance }, index) => (
-    [`${index + 1}.`, tag(userId), balance]
+    [`${index + 1}.`, `[${balance.toFixed(1)}]`, tag(userId)]
   ));
 
   return textTable(rows, { align: ['l', 'l', 'l'] });
