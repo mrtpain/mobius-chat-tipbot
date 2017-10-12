@@ -3,7 +3,7 @@ const config = require('../config');
 const locales = require('../locales');
 const logger = require('../lib/logger');
 
-async function addresses(_, context) {
+async function reinit(_, context) {
   const users = await context.getNewUsers();
 
   if (users.length === 0) {
@@ -37,4 +37,4 @@ async function addresses(_, context) {
   };
 }
 
-module.exports = { addresses };
+module.exports = reinit;

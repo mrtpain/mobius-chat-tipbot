@@ -2,17 +2,21 @@ const help = require('./help');
 const unknown = require('./unknown');
 const balance = require('./balance');
 const leaderboard = require('./leaderboard');
-const create = require('./create');
+const reinit = require('./reinit');
 
 const logger = require('../lib/logger');
 
 function run(command, context) {
   logger.log('COMMAND', command);
 
-  const { name, args } = command;
+  const { name } = command;
 
   if (name === 'help') {
     return help();
+  }
+
+  if (name === 'reinit') {
+    return reinit(command, context);
   }
 
   if (['b', 'bal', 'balance'].includes(name)) {
@@ -21,10 +25,6 @@ function run(command, context) {
 
   if (['leaderboard', 'rank'].includes(name)) {
     return leaderboard(command, context);
-  }
-
-  if (name === 'create') {
-    if (args[0] === 'addresses') return create.addresses(command, context);
   }
 
   return unknown();
