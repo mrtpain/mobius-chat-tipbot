@@ -4,36 +4,38 @@ const locales = require('../locales');
 const logger = require('../lib/logger');
 
 async function reinit(_, context) {
-  const users = await context.getNewUsers();
+  const newUsers = await context.getNewUsers();
 
-  if (users.length === 0) {
+  if (newUsers.length === 0) {
     return {
-      text: locales.t('commands.createAddresses.fail'),
+      text: locales.t('commands.reinit.fail'),
     };
   }
 
-  const created = [];
-
-  users.forEach(async (user) => {
+  const created = await Promise.all(newUsers.map(async (user) => {
     try {
       const { id } = user;
-      const { address } = await mobius.tokens.createAddress({
+      const { uid, address } = await mobius.tokens.createAddress({
         tokenUid: config.MOBIUS_TOKEN_UID,
         managed: true,
       });
 
-      context.setUserAddress(id, address);
+      context.setUser(id, { uid, address });
 
-      created.push(user);
+      return id;
     } catch (e) {
-      logger.error(e);
+      logger.error('REINIT', e);
+      return null;
     }
-  });
+  }));
 
-  const names = created.map(u => u.name).join(', ');
+  const users = created
+    .filter(userId => userId)
+    .map(userId => context.getUserTag(userId))
+    .join(', ');
 
   return {
-    text: locales.t('commands.createAddresses.success', { names }),
+    text: locales.t('commands.reinit.success', { users }),
   };
 }
 

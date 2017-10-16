@@ -37,6 +37,29 @@ function hkeys(hash) {
   });
 }
 
+function fromJson(object) {
+  if (typeof object === 'string') {
+    return JSON.parse(object);
+  }
+
+  if (typeof object === 'object') {
+    const result = {};
+
+    Object.keys(object).forEach((key) => {
+      const value = object[key];
+      result[key] = JSON.parse(value);
+    });
+
+    return result;
+  }
+
+  return {};
+}
+
+function toJson(object) {
+  return JSON.stringify(object);
+}
+
 module.exports = {
   set,
   get,
@@ -44,4 +67,7 @@ module.exports = {
   hget,
   hegtall,
   hkeys,
+
+  toJson,
+  fromJson,
 };

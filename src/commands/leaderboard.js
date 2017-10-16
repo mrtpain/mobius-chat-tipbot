@@ -9,7 +9,8 @@ function mapUserToBalance(users, balances) {
   const addresses = {};
 
   Object.keys(users).forEach((id) => {
-    addresses[users[id]] = id;
+    const { address } = users[id];
+    addresses[address] = id;
   });
 
   const table = balances.map(({ address, balance }) => ({
@@ -35,7 +36,7 @@ async function leaderboard(command, context) {
     const users = await context.getAllUsers();
 
     const balances = await Promise.all(Object.keys(users).map((id) => {
-      const address = users[id];
+      const { address } = users[id];
 
       return mobius.tokens.balance({
         tokenUid: config.MOBIUS_TOKEN_UID,

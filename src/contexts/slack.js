@@ -2,7 +2,7 @@ const redis = require('../services/redis');
 const slack = require('../lib/slack');
 
 const BOT_ID = 'SLACK_BOT_ID';
-const USERS_ADDRESSES = 'SLACK_USERS_ADDRESSES';
+const USERS = 'SLACK_USERS';
 
 function SlackContext(bot) {
   return {
@@ -20,23 +20,21 @@ function SlackContext(bot) {
 
     async getNewUsers() {
       const slackUsers = await this.getChatUsers();
-      const storedUsers = await redis.hkeys(USERS_ADDRESSES) || [];
+      const storedUsers = await redis.hkeys(USERS) || [];
 
       return slackUsers.filter(u => !storedUsers.includes(u.id));
     },
 
     async getAllUsers() {
-      const users = await redis.hegtall(USERS_ADDRESSES) || {};
-
-      return users;
+      return redis.hegtall(USERS).then(redis.fromJson);
     },
 
-    setUserAddress(userId, address) {
-      redis.hsetnx(USERS_ADDRESSES, userId, address);
+    setUser(userId, { uid, address }) {
+      redis.hsetnx(USERS, userId, redis.toJson({ uid, address }));
     },
 
-    async getUserAddress(userId) {
-      return redis.hget(USERS_ADDRESSES, userId);
+    async getUser(userId) {
+      return redis.hget(USERS, userId).then(redis.fromJson);
     },
 
     getUserTag(id) {

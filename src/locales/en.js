@@ -10,11 +10,11 @@ module.exports = {
         success: '```{{table}}```',
       },
 
-      create: {
-        addresses: {
-          success: 'I\'ve just created adresses for this users: {{names}}',
-          fail: 'All users already have an addresses :ok_hand:',
-        },
+      reinit: {
+        success: 'I\'ve just created adresses for this users: {{users}}',
+        fail: 'All users already have an addresses :ok_hand:',
+      },
+
       },
     },
   },

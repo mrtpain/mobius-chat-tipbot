@@ -6,7 +6,7 @@ async function balance(command, context) {
   const { senderId } = command;
 
   try {
-    const address = await context.getUserAddress(senderId);
+    const { address } = await context.getUser(senderId);
 
     const data = await mobius.tokens.balance({
       tokenUid: config.MOBIUS_TOKEN_UID,
