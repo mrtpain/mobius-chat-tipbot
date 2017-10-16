@@ -15,6 +15,8 @@ module.exports = {
         fail: 'All users already have an addresses :ok_hand:',
       },
 
+      tip: {
+        success: 'Sent {{amount}} credits to {{user}}!',
       },
     },
   },

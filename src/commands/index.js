@@ -3,6 +3,7 @@ const unknown = require('./unknown');
 const balance = require('./balance');
 const leaderboard = require('./leaderboard');
 const reinit = require('./reinit');
+const tip = require('./tip');
 
 const logger = require('../lib/logger');
 
@@ -17,6 +18,10 @@ function run(command, context) {
 
   if (name === 'reinit') {
     return reinit(command, context);
+  }
+
+  if (name === 'tip') {
+    return tip(command, context);
   }
 
   if (['b', 'bal', 'balance'].includes(name)) {
