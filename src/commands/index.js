@@ -4,6 +4,7 @@ const balance = require('./balance');
 const leaderboard = require('./leaderboard');
 const reinit = require('./reinit');
 const tip = require('./tip');
+const send = require('./send');
 
 const logger = require('../lib/logger');
 
@@ -22,6 +23,10 @@ function run(command, context) {
 
   if (name === 'tip') {
     return tip(command, context);
+  }
+
+  if (['send', 'withdraw'].includes(name)) {
+    return send(command, context);
   }
 
   if (['b', 'bal', 'balance'].includes(name)) {

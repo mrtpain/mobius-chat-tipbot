@@ -18,6 +18,10 @@ module.exports = {
       tip: {
         success: 'Sent {{amount}} credits to {{user}}!',
       },
+
+      send: {
+        success: 'Sent {{amount}} credits to `{{address}}`!',
+      },
     },
   },
 };
