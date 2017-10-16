@@ -2,7 +2,7 @@ const mobius = require('../services/mobius');
 const locales = require('../locales');
 const logger = require('../lib/logger');
 
-async function tip(command, context) {
+async function send(command, context) {
   const { senderId, args } = command;
 
   const amount = args[0];
@@ -26,4 +26,4 @@ async function tip(command, context) {
   }
 }
 
-module.exports = tip;
+module.exports = send;
