@@ -5,6 +5,7 @@ const leaderboard = require('./leaderboard');
 const reinit = require('./reinit');
 const tip = require('./tip');
 const send = require('./send');
+const donate = require('./donate');
 
 const logger = require('../lib/logger');
 
@@ -19,6 +20,10 @@ function run(command, context) {
 
   if (name === 'reinit') {
     return reinit(command, context);
+  }
+
+  if (name === 'donate') {
+    return donate(command, context);
   }
 
   if (name === 'tip') {

@@ -22,6 +22,10 @@ module.exports = {
       send: {
         success: 'Sent {{amount}} credits to `{{address}}`!',
       },
+
+      donate: {
+        success: '{{user}} your address is `{{address}}`',
+      },
     },
   },
 };
