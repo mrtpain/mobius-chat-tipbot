@@ -42,7 +42,7 @@ function run(command, context) {
     return leaderboard(command, context);
   }
 
-  return unknown();
+  return unknown(command, context);
 }
 
 module.exports = {

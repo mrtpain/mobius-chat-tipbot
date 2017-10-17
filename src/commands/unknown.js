@@ -1,7 +1,12 @@
-function unknown() {
-  return new Promise((resolve) => {
-    resolve({ text: 'Unknown command' });
-  });
+const locales = require('../locales');
+
+async function unknown(command, context) {
+  const { senderId } = command;
+  const user = context.getUserTag(senderId);
+
+  return {
+    text: locales.t('commands.unknown', { user }),
+  };
 }
 
 module.exports = unknown;
