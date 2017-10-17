@@ -1,3 +1,5 @@
+/* eslint-disable no-multi-str */
+
 module.exports = {
   translation: {
     commands: {
@@ -26,6 +28,21 @@ module.exports = {
       donate: {
         success: '{{user}} your address is `{{address}}`',
       },
+
+
+      help: '```Usage {{bot}} tip @user <amount>\n\
+\n\
+Tipping:\n\
+{{bot}} tip @user               # send @user 10 credits\n\
+{{bot}} tip @user 1000          # send @user 1000 credits\n\
+\n\
+Other commands:\n\
+{{bot}} balance                 # shows your balance, \'bal\' also works\n\
+{{bot}} leaderboard             # see who has what, \'rank\' also works\n\
+{{bot}} donate                  # show the your address for donations\n\
+{{bot}} send <amount> <address> # send credits to a token address, \'withdraw\' also works\n\
+\n\
+In direct message chat, you can issue these commands without prefixing \'{{bot}} ...\'.```',
     },
   },
 };

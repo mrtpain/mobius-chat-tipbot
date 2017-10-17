@@ -15,7 +15,7 @@ function run(command, context) {
   const { name } = command;
 
   if (name === 'help') {
-    return help();
+    return help(command, context);
   }
 
   if (name === 'reinit') {
