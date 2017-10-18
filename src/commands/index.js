@@ -18,16 +18,16 @@ function run(command, context) {
     return help(command, context);
   }
 
-  if (name === 'reinit') {
-    return reinit(command, context);
-  }
-
   if (name === 'donate') {
     return donate(command, context);
   }
 
   if (name === 'tip') {
     return tip(command, context);
+  }
+
+  if (['init', 'reinit'].includes(name)) {
+    return reinit(command, context);
   }
 
   if (['send', 'withdraw'].includes(name)) {
