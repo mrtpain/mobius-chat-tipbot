@@ -33,7 +33,7 @@ module.exports = {
       help: '```Usage {{bot}} tip @user <amount>\n\
 \n\
 Tipping:\n\
-{{bot}} tip @user               # send @user 10 credits\n\
+{{bot}} tip @user               # send @user {{defaultAmount}} credits\n\
 {{bot}} tip @user 1000          # send @user 1000 credits\n\
 \n\
 Other commands:\n\
