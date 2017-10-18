@@ -1,4 +1,4 @@
-const sortBy = require('lodash.sortby');
+const orderBy = require('lodash.orderby');
 const textTable = require('text-table');
 
 const mobius = require('../services/mobius');
@@ -23,7 +23,7 @@ function mapUserToBalance(users, balances) {
 }
 
 function getTable(users, balances, tag) {
-  const table = sortBy(mapUserToBalance(users, balances), ['balance']);
+  const table = orderBy(mapUserToBalance(users, balances), ['balance'], ['desc']);
 
   const rows = table.map(({ userId, balance }, index) => (
     [`${index + 1}.`, `[${balance.toFixed(1)}]`, tag(userId)]
