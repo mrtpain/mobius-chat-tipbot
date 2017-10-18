@@ -55,10 +55,7 @@ function parseUsers(data) {
 
   return members
     .filter(m => !m.is_bot && m.name !== 'slackbot')
-    .map(m => ({
-      id: m.id,
-      name: `@${m.name}`,
-    }));
+    .map(m => ({ id: m.id }));
 }
 
 function convertMessageToCommand(message, botId) {
