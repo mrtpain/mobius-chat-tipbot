@@ -1,6 +1,7 @@
 const mobius = require('../services/mobius');
 const config = require('../config');
 const locales = require('../locales');
+const logger = require('../lib/logger');
 
 async function balance(command, context) {
   const { senderId } = command;
@@ -19,6 +20,8 @@ async function balance(command, context) {
       }),
     };
   } catch (e) {
+    logger.error('BALANCE', e);
+
     return {
       text: locales.t('commands.balance.fail', { user: context.getUserTag(senderId) }),
     };
