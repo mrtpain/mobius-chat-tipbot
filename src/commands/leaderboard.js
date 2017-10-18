@@ -4,6 +4,7 @@ const textTable = require('text-table');
 const mobius = require('../services/mobius');
 const config = require('../config');
 const locales = require('../locales');
+const logger = require('../lib/logger');
 
 function mapUserToBalance(users, balances) {
   const addresses = {};
@@ -50,7 +51,11 @@ async function leaderboard(command, context) {
       text: locales.t('commands.leaderboard.success', { table }),
     };
   } catch (e) {
-    return {};
+    logger.log('LEADERBOARD', e);
+
+    return {
+      text: locales.t('commands.leaderboard.fail'),
+    };
   }
 }
 

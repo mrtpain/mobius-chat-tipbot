@@ -10,6 +10,7 @@ module.exports = {
 
       leaderboard: {
         success: '```{{table}}```',
+        fail: 'Oops, something went wrong, please try again.',
       },
 
       reinit: {
