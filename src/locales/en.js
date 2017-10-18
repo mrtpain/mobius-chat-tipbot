@@ -45,7 +45,7 @@ Other commands:\n\
 In direct message chat, you can issue these commands without prefixing \'{{bot}} ...\'.```',
 
       unknown: 'Sorry {{user}} but I didn\'t recognize that command.\n\
-You сan send me `help` command, for more information.'
+You сan send me `help` command, for more information.',
     },
   },
 };
