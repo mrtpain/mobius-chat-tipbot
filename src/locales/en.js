@@ -15,7 +15,7 @@ module.exports = {
 
       reinit: {
         success: 'I\'ve just created adresses for this users: {{users}}',
-        fail: 'All users already have an addresses :ok_hand:',
+        empty: 'All users already have an addresses :ok_hand:',
       },
 
       tip: {
