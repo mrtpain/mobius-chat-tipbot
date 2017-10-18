@@ -27,6 +27,7 @@ module.exports = {
 
       donate: {
         success: '{{user}} your address is `{{address}}`',
+        fail: 'Sorry {{user}}, but you don\'t have an address',
       },
 
 
