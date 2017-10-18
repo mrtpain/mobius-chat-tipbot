@@ -1,12 +1,13 @@
 const mobius = require('../services/mobius');
 const locales = require('../locales');
+const config = require('../config');
 const logger = require('../lib/logger');
 
 async function tip(command, context) {
   const { senderId, args } = command;
 
   const recepientId = args[0];
-  const amount = args[1];
+  const amount = args[1] || config.DEFAULT_TIP_AMOUNT;
 
   try {
     const { uid } = await context.getUser(senderId);
