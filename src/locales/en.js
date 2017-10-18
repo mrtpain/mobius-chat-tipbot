@@ -4,8 +4,8 @@ module.exports = {
   translation: {
     commands: {
       balance: {
-        success: 'You\'ve got {{balance}} credits <@{{userId}}>',
-        fail: 'Sorry, but you don\'t have an address',
+        success: 'You\'ve got {{balance}} credits {{user}}',
+        fail: 'Sorry {{user}}, but you don\'t have an address',
       },
 
       leaderboard: {

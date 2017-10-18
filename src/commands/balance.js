@@ -15,11 +15,13 @@ async function balance(command, context) {
 
     return {
       text: locales.t('commands.balance.success', {
-        balance: data.balance, userId: senderId,
+        balance: data.balance, user: context.getUserTag(senderId),
       }),
     };
   } catch (e) {
-    return {};
+    return {
+      text: locales.t('commands.balance.fail', { user: context.getUserTag(senderId) }),
+    };
   }
 }
 
