@@ -21,8 +21,11 @@ async function send(command, context) {
       text: locales.t('commands.send.success', { amount, address }),
     };
   } catch (e) {
-    logger.log('SEND', e.message);
-    return {};
+    logger.log('SEND', e);
+
+    return {
+      text: locales.t('commands.send.fail'),
+    };
   }
 }
 

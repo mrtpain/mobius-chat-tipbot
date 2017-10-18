@@ -16,14 +16,17 @@ module.exports = {
       reinit: {
         success: 'I\'ve just created adresses for this users: {{users}}',
         empty: 'All users already have an addresses :ok_hand:',
+        fail: 'Oops, something went wrong, please try again.',
       },
 
       tip: {
         success: 'Sent {{amount}} credits to {{user}}!',
+        fail: 'Oops, something went wrong, please try again.',
       },
 
       send: {
         success: 'Sent {{amount}} credits to `{{address}}`!',
+        fail: 'Oops, something went wrong, please try again.',
       },
 
       donate: {

@@ -23,8 +23,11 @@ async function tip(command, context) {
       text: locales.t('commands.tip.success', { amount, user: context.getUserTag(recepientId) }),
     };
   } catch (e) {
-    logger.log('TIP', e.message);
-    return {};
+    logger.log('TIP', e);
+
+    return {
+      text: locales.t('commands.tip.success'),
+    };
   }
 }
 
