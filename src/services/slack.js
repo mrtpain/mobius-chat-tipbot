@@ -1,4 +1,9 @@
-const SlackBot = require('slackbots');
+const {
+  RtmClient,
+  CLIENT_EVENTS,
+  RTM_EVENTS,
+  MemoryDataStore,
+} = require('@slack/client');
 const ent = require('ent');
 
 const config = require('../config');
@@ -9,35 +14,31 @@ const SlackContext = require('../contexts/slack');
 const { run } = require('../commands');
 
 function start() {
-  const bot = new SlackBot({
-    token: config.SLACK_API_TOKEN,
-    name: 'Mobius Chat Tipbot',
+  const rtm = new RtmClient(config.SLACK_API_TOKEN, {
+    dataStore: new MemoryDataStore(),
   });
 
-  const context = new SlackContext(bot);
+  const context = new SlackContext(rtm);
 
-  function onHello() {
-    const { id } = bot.self;
+  function onAuthenticated(data) {
+    const { id } = data.self;
 
     context.setBotId(id);
 
-    logger.log('HELLO', id);
+    logger.log('BOT_ID', id);
   }
 
   async function onMessage(message) {
     try {
+      logger.log('MESSAGE', message);
       const botId = await context.getBotId();
 
       if (slack.isValidMessage(message, botId)) {
-        logger.log('MESSAGE', message);
-
         const command = slack.convertMessageToCommand(message, botId);
         const response = await run(command, context);
 
         if (response && response.text) {
-          bot.postMessage(command.channelId, ent.decode(response.text), {
-            link_names: true,
-          });
+          rtm.sendMessage(ent.decode(response.text), command.channelId);
         }
       }
     } catch (e) {
@@ -45,10 +46,10 @@ function start() {
     }
   }
 
-  bot.on('message', (data) => {
-    if (data.type === 'hello') onHello(data);
-    if (data.type === 'message') onMessage(data);
-  });
+  rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, onAuthenticated);
+  rtm.on(RTM_EVENTS.MESSAGE, onMessage);
+
+  rtm.start();
 }
 
 module.exports = {

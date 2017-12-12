@@ -4,11 +4,9 @@ const lib = require('../../src/lib/slack');
 
 test('parseUsers', (t) => {
   const data = {
-    members: [
-      { id: 'SLACKBOT', name: 'slackbot', is_bot: false },
-      { id: 'USER', name: 'USER', is_bot: false },
-      { id: 'BOT', name: 'BOT', is_bot: true },
-    ],
+    SLACKBOT: { id: 'SLACKBOT', name: 'slackbot', is_bot: false },
+    USER: { id: 'USER', name: 'USER', is_bot: false },
+    BOT: { id: 'BOT', name: 'BOT', is_bot: true },
   };
 
   t.deepEqual(lib.parseUsers(data), [{ id: 'USER' }]);

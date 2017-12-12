@@ -4,7 +4,7 @@ const slack = require('../lib/slack');
 const BOT_ID = 'SLACK_BOT_ID';
 const USERS = 'SLACK_USERS';
 
-function SlackContext(bot) {
+function SlackContext(rtm) {
   return {
     setBotId(botId) {
       redis.set(BOT_ID, botId);
@@ -15,7 +15,7 @@ function SlackContext(bot) {
     },
 
     async getChatUsers() {
-      return slack.parseUsers(await bot.getUsers());
+      return slack.parseUsers(await rtm.dataStore.users);
     },
 
     async getNewUsers() {

@@ -48,14 +48,12 @@ function parseMesage(text, botId) {
   return command.trim().split(/\W+/);
 }
 
-function parseUsers(data) {
-  const { members } = data;
-
-  if (!members || members.length === 0) return [];
-
-  return members
-    .filter(m => !m.is_bot && m.name !== 'slackbot')
-    .map(m => ({ id: m.id }));
+function parseUsers(users) {
+  return Object
+    .keys(users)
+    .map(id => users[id])
+    .filter(user => !user.is_bot && user.name !== 'slackbot')
+    .map(user => ({ id: user.id }));
 }
 
 function convertMessageToCommand(message, botId) {
