@@ -1,11 +1,17 @@
 const i18next = require('i18next');
 
-const en = require('./en');
+const slack = require('./slack');
+const telegram = require('./telegram');
+
 
 i18next.init({
   lng: 'en',
+  ns: ['slack', 'telegram'],
   resources: {
-    en,
+    en: {
+      slack,
+      telegram,
+    },
   },
 });
 

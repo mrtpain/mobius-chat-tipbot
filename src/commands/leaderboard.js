@@ -1,60 +1,36 @@
-const orderBy = require('lodash.orderby');
 const textTable = require('text-table');
-
-const mobius = require('../services/mobius');
-const config = require('../config');
-const locales = require('../locales');
 const logger = require('../lib/logger');
 
-function mapUserToBalance(users, balances) {
-  const addresses = {};
 
-  Object.keys(users).forEach((id) => {
-    const { address } = users[id];
-    addresses[address] = id;
+function getTable(users, sortBy, tag) {
+  const rows = users.map((user, index) => {
+    const balance = user[sortBy];
+
+    return [`${index + 1}.`, `[${balance.toFixed(1)}]`, tag(user.userId)];
   });
-
-  const table = balances.map(({ address, balance }) => ({
-    userId: addresses[address],
-    balance: parseFloat(balance),
-  }));
-
-  return table;
-}
-
-function getTable(users, balances, tag) {
-  const table = orderBy(mapUserToBalance(users, balances), ['balance'], ['desc']);
-
-  const rows = table.map(({ userId, balance }, index) => (
-    [`${index + 1}.`, `[${balance.toFixed(1)}]`, tag(userId)]
-  ));
 
   return textTable(rows, { align: ['l', 'l', 'l'] });
 }
 
+
 async function leaderboard(command, context) {
+  const { args } = command;
+
+  const sortBy = args[0] === 'lifetime' ? 'numTokensLifetime' : 'numTokens';
+
   try {
-    const users = await context.getAllUsers();
+    const users = await context.rank(sortBy);
 
-    const balances = await Promise.all(Object.keys(users).map((id) => {
-      const { address } = users[id];
-
-      return mobius.tokens.balance({
-        tokenUid: config.MOBIUS_TOKEN_UID,
-        address,
-      });
-    }));
-
-    const table = getTable(users, balances, context.getUserTag);
+    const table = getTable(users, sortBy, context.getUserTag);
 
     return {
-      text: locales.t('commands.leaderboard.success', { table }),
+      text: context.t('commands.leaderboard.success', { table }),
     };
   } catch (e) {
     logger.log('LEADERBOARD', e);
 
     return {
-      text: locales.t('commands.leaderboard.fail'),
+      text: context.t('commands.leaderboard.fail'),
     };
   }
 }

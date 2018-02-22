@@ -18,14 +18,14 @@ function start() {
     dataStore: new MemoryDataStore(),
   });
 
-  const context = new SlackContext(rtm);
+  const context = new SlackContext();
 
   function onAuthenticated(data) {
     const { id } = data.self;
 
     context.setBotId(id);
 
-    logger.log('BOT_ID', id);
+    logger.log('SLACK_BOT_ID', id);
   }
 
   async function onMessage(message) {

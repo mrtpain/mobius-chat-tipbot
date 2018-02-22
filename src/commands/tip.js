@@ -1,32 +1,39 @@
-const mobius = require('../services/mobius');
-const locales = require('../locales');
 const config = require('../config');
 const logger = require('../lib/logger');
 
 async function tip(command, context) {
-  const { senderId, args } = command;
+  const { args } = command;
 
   const recepientId = args[0];
-  const amount = args[1] || config.DEFAULT_TIP_AMOUNT;
+  const amount = parseInt(args[1] || config.DEFAULT_TIP_AMOUNT, 10);
+
+  const user = await context.getUser(recepientId);
+
+  if (amount > config.MAX_TIP) {
+    return {
+      text: context.t('commands.tip.failByMaxTip'), // TODO: I18n
+    };
+  }
+
+  if (user.numTokensLifetime + amount > config.MAX_TIP_LIFETIME) {
+    return {
+      text: context.t('commands.tip.failByMaxTipLifetime'), // TODO: I18n
+    };
+  }
 
   try {
-    const { uid } = await context.getUser(senderId);
-    const { address } = await context.getUser(recepientId);
-
-    await mobius.tokens.transferManaged({
-      tokenAddressUid: uid,
-      addressTo: address,
-      numTokens: amount,
-    });
+    await context.tip(recepientId, amount);
 
     return {
-      text: locales.t('commands.tip.success', { amount, user: context.getUserTag(recepientId) }),
+      text: context.t('commands.tip.success', {
+        amount, user: context.getUserTag(recepientId),
+      }),
     };
   } catch (e) {
     logger.log('TIP', e);
 
     return {
-      text: locales.t('commands.tip.success'),
+      text: context.t('commands.tip.fail'), // TODO: I18n
     };
   }
 }

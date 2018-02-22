@@ -1,29 +1,24 @@
-const mobius = require('../services/mobius');
-const config = require('../config');
-const locales = require('../locales');
 const logger = require('../lib/logger');
 
 async function balance(command, context) {
   const { senderId } = command;
 
   try {
-    const { address } = await context.getUser(senderId);
-
-    const data = await mobius.tokens.balance({
-      tokenUid: config.MOBIUS_TOKEN_UID,
-      address,
-    });
+    const { numTokens } = await context.getUser(senderId);
 
     return {
-      text: locales.t('commands.balance.success', {
-        balance: data.balance, user: context.getUserTag(senderId),
+      text: context.t('commands.balance.success', {
+        balance: numTokens,
+        user: context.getUserTag(senderId),
       }),
     };
   } catch (e) {
     logger.error('BALANCE', e);
 
     return {
-      text: locales.t('commands.balance.fail', { user: context.getUserTag(senderId) }),
+      text: context.t('commands.balance.fail', {
+        user: context.getUserTag(senderId),
+      }),
     };
   }
 }

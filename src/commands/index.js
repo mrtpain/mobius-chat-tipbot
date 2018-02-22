@@ -2,49 +2,56 @@ const help = require('./help');
 const unknown = require('./unknown');
 const balance = require('./balance');
 const leaderboard = require('./leaderboard');
-const reinit = require('./reinit');
 const tip = require('./tip');
-const send = require('./send');
-const donate = require('./donate');
-
+const withdraw = require('./withdraw');
 const logger = require('../lib/logger');
+
+
+const HELP = 'help';
+const TIP = 'tip';
+const SEND = 'send';
+const WITHDRAW = 'withdraw';
+const B = 'b';
+const BAL = 'bal';
+const BALANCE = 'balance';
+const LEADERBOARD = 'leaderboard';
+const RANK = 'rank';
+
+const COMMANDS = [
+  HELP, TIP, SEND, WITHDRAW, B, BAL, BALANCE, LEADERBOARD, RANK,
+];
+
 
 function run(command, context) {
   logger.log('COMMAND', command);
 
   const { name } = command;
 
-  if (name === 'help') {
+  if (name === HELP) {
     return help(command, context);
   }
 
-  if (name === 'donate') {
-    return donate(command, context);
-  }
-
-  if (name === 'tip') {
+  if (name === TIP) {
     return tip(command, context);
   }
 
-  if (['init', 'reinit'].includes(name)) {
-    return reinit(command, context);
+  if ([WITHDRAW, SEND].includes(name)) {
+    return withdraw(command, context);
   }
 
-  if (['send', 'withdraw'].includes(name)) {
-    return send(command, context);
-  }
-
-  if (['b', 'bal', 'balance'].includes(name)) {
+  if ([B, BAL, BALANCE].includes(name)) {
     return balance(command, context);
   }
 
-  if (['leaderboard', 'rank'].includes(name)) {
+  if ([LEADERBOARD, RANK].includes(name)) {
     return leaderboard(command, context);
   }
 
   return unknown(command, context);
 }
 
+
 module.exports = {
   run,
+  COMMANDS,
 };
