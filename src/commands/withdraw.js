@@ -1,5 +1,5 @@
-// const mobius = require('../services/mobius');
-// const config = require('../config');
+const mobius = require('../services/mobius');
+const config = require('../config');
 
 async function send(command, context) {
   const { senderId, args } = command;
@@ -16,11 +16,11 @@ async function send(command, context) {
   }
 
   try {
-    // await mobius.tokens.transferManaged({
-    //   tokenAddressUid: config.MOBIUS_TOKEN_UID,
-    //   addressTo: address,
-    //   numTokens: amount,
-    // });
+    await mobius.tokens.transferManaged({
+      tokenAddressUid: config.MOBIUS_TOKEN_UID,
+      addressTo: address,
+      numTokens: amount,
+    });
 
     await context.withdraw(senderId, amount);
 
