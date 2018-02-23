@@ -6,5 +6,5 @@ const telegram = require('./services/telegram');
 
 mongodb.start();
 express.start();
-slack.start();
-telegram.start();
+// slack.start();
+// telegram.start();

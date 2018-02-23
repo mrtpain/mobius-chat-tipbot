@@ -1,12 +1,14 @@
-const config = require('../config');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const config = require('../config');
+const mobius = require('./mobius');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.post('/', (request, response) => {
+app.post('/mobius-webhook', (request, response) => {
   const apiKey = request.get('Mobius-API-Key');
 
   if (apiKey !== config.MOBIUS_API_KEY) {
@@ -17,11 +19,39 @@ app.post('/', (request, response) => {
   response.send('OK');
 });
 
+app.get('/create-uid', (request, response) => {
+  if (config.MOBIUS_TOKEN_UID !== '') {
+    response.status(405).send('MOBIUS_TOKEN_UID already defined!');
+    return;
+  }
+
+  response.sendFile(path.join(__dirname, '../pages/create-uid.html'));
+});
+
+app.post('/create-uid', async (request, response) => {
+  if (config.MOBIUS_TOKEN_UID !== '') {
+    response.status(405).send('MOBIUS_TOKEN_UID already defined!');
+    return;
+  }
+
+  const {
+    tokenType, name, symbol, issuer,
+  } = request.body;
+
+  try {
+    const data = await mobius.tokens.register({
+      tokenType, name, symbol, issuer,
+    });
+
+    response.send(data);
+  } catch (e) {
+    response.status(503).send('FAIL');
+  }
+});
+
 
 function start() {
-  app.listen(3000, () => {
-    // console.log('Express app is running on 3000!');
-  });
+  app.listen(3000, () => {});
 }
 
 module.exports = {
