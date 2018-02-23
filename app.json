@@ -5,13 +5,19 @@
   "logo": "https://raw.githubusercontent.com/mobius-network/mobius-chat-tipbot/master/assets/logotype.png",
   "keywords": ["mobius", "slack", "telegram"],
   "env": {
-    "SLACK_API_TOKEN": {},
-    "TELEGRAM_BOT_TOKEN": {},
+    "SLACK_API_TOKEN": {
+      "required": "false",
+    },
+    "TELEGRAM_BOT_TOKEN": {
+      "required": "false",
+    },
     "MOBIUS_API_KEY": {},
-    "MOBIUS_TOKEN_UID": {},
+    "MOBIUS_TOKEN_UID": {
+      "required": "false",
+    },
     "DEFAULT_TIP_AMOUNT": {},
     "MAX_TIP": {},
-    "MAX_TIP_LIFETIME": {},
+    "MAX_TIP_LIFETIME": {}
   },
   "addons": [
     "mongolab:sandbox"
