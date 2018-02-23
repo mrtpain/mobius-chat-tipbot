@@ -21,11 +21,14 @@ module.exports = {
     tip: {
       success: 'Sent {{amount}} credits to {{user}}!',
       fail: 'Oops, something went wrong, please try again.',
+      failByMaxTip: 'Sorry you can\'t tip more than {{maxTip}} credits.',
+      failByMaxTipLifetime: 'Sorry {{user}} can\'t recieve more than {{maxTipLifetime}} credits.',
     },
 
     send: {
       success: 'Sent {{amount}} credits to `{{address}}`!',
       fail: 'Oops, something went wrong, please try again.',
+      failByAmout: 'Sorry, but you don\'t have enough credits.',
     },
 
     donate: {

@@ -124,7 +124,7 @@
             issuer: issuerInput.val(),
           };
 
-          $.post('/create-uid', data)
+          $.post('/register-uid', data)
             .done(function (response) {
               showSuccess(response.uid);
             })

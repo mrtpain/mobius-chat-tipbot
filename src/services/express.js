@@ -19,16 +19,16 @@ app.post('/mobius-webhook', (request, response) => {
   response.send('OK');
 });
 
-app.get('/create-uid', (request, response) => {
+app.get('/register-uid', (request, response) => {
   if (config.MOBIUS_TOKEN_UID !== '') {
     response.status(405).send('MOBIUS_TOKEN_UID already defined!');
     return;
   }
 
-  response.sendFile(path.join(__dirname, '../pages/create-uid.html'));
+  response.sendFile(path.join(__dirname, '../pages/register-uid.html'));
 });
 
-app.post('/create-uid', async (request, response) => {
+app.post('/register-uid', async (request, response) => {
   if (config.MOBIUS_TOKEN_UID !== '') {
     response.status(405).send('MOBIUS_TOKEN_UID already defined!');
     return;

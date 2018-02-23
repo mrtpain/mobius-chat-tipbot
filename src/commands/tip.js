@@ -11,13 +11,18 @@ async function tip(command, context) {
 
   if (amount > config.MAX_TIP) {
     return {
-      text: context.t('commands.tip.failByMaxTip'), // TODO: I18n
+      text: context.t('commands.tip.failByMaxTip', {
+        maxTip: config.MAX_TIP,
+      }),
     };
   }
 
   if (user.numTokensLifetime + amount > config.MAX_TIP_LIFETIME) {
     return {
-      text: context.t('commands.tip.failByMaxTipLifetime'), // TODO: I18n
+      text: context.t('commands.tip.failByMaxTipLifetime', {
+        user: context.getUserTag(recepientId),
+        maxTipLifetime: config.MAX_TIP_LIFETIME,
+      }),
     };
   }
 
@@ -33,7 +38,7 @@ async function tip(command, context) {
     logger.log('TIP', e);
 
     return {
-      text: context.t('commands.tip.fail'), // TODO: I18n
+      text: context.t('commands.tip.fail'),
     };
   }
 }

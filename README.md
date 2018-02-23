@@ -12,7 +12,7 @@ Tipping:
 Other commands:
 @tipbot balance                 # shows your balance, 'bal' and 'b' also works
 @tipbot leaderboard             # see who has what, 'rank' also works
-@tipbot donate                  # show the your address for donations
+@tipbot leaderboard lifetime    # see who has what on bot lifetime, 'rank' also works
 @tipbot send <amount> <address> # send credits to a token address, 'withdraw' also works
 
 In direct message chat, you can issue these commands without prefixing '@tipbot ...'.
@@ -20,20 +20,26 @@ In direct message chat, you can issue these commands without prefixing '@tipbot 
 
 ## Installation
 
-#### 1. Create the Slack bot
+### Mobius
 
-[Create and add bot](https://my.slack.com/services/new/bot) in slack for your team.
-
-#### 2. Create a Mobius account
+#### 1. Create a Mobius account
 
 You can create Mobius account on [this](https://mobius.network/store/signup) page, than get your `MOBIUS_API_KEY` at our [developer portal](https://mobius.network/store/developer).
 
+#### 2. Register a token in Mobius
 
-#### 3. Register a token in Mobius
+You can register a token by Mobius API via `curl`, please read [API documentation](https://mobius.network/docs/#register) for it.
+Or you can use page `https://<your-app-name>.herokuapp.com/register-uid` (after deploying this app without `MOBIUS_TOKEN_UID` variable).
 
-You can register a token by Mobius API via `curl` or `mobius-node` package. Read [API documentation](https://mobius.network/docs/#register) for more information.
+#### 1. Create the Slack bot
 
-#### 3. Deploy the app
+[Create and add bot](https://my.slack.com/services/new/bot) in Slack for your team.
+
+#### 2. Create the Telegram bot
+
+[Create](https://core.telegram.org/bots#3-how-do-i-create-a-bot) Telegram bot and add it to your team channel
+
+#### 2. Deploy the app
 
 Just press this button for deploying app into Heroku
 
@@ -41,18 +47,15 @@ Just press this button for deploying app into Heroku
 
 Then fill in the config variables:
   - `SLACK_API_TOKEN`
-  - `MOBIUS_API_KEY`,
+  - `TELEGRAM_BOT_TOKEN`
+  - `MOBIUS_API_KEY`
   - `MOBIUS_TOKEN_UID`
   - `DEFAULT_TIP_AMOUNT`
+  - `MAX_TIP`
+  - `MAX_TIP_LIFETIME`
 
 and click "Deploy for Free" button.
 
-#### 4. Initialize the bot database
-
-Last step, before starting using the bot your should initialize database and create addresses for all team users. Just send command `init` (or `reinit`) to bot and wait to response.
-
-You can also use this command after new team member have been added to chat (all old users addresses will not be affected).
-
-#### 5. Test it out!
+#### 3. Test it out!
 
 Try sending a direct messages to `@tipbot` in private chat, or `/invite @tipbot` to any channel or group. Use `@tipbot help` for a list of commands.

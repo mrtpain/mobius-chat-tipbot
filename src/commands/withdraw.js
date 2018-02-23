@@ -11,7 +11,7 @@ async function send(command, context) {
 
   if (amount > numTokens) {
     return {
-      text: context.t('commands.send.failByAmout'), // TODO: I18n
+      text: context.t('commands.send.failByAmout'),
     };
   }
 
