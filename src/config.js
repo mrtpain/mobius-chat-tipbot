@@ -13,6 +13,8 @@ const {
 
   MONGODB_URI,
   MONGODB_URL,
+
+  PORT,
 } = process.env;
 
 module.exports = {
@@ -29,4 +31,5 @@ module.exports = {
   MAX_TIP_LIFETIME: parseInt(MAX_TIP_LIFETIME, 10),
 
   MONGODB_URL: MONGODB_URL || MONGODB_URI,
+  PORT: parseInt(PORT || 3000, 10),
 };

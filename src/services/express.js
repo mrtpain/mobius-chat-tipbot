@@ -51,7 +51,7 @@ app.post('/register-uid', async (request, response) => {
 
 
 function start() {
-  app.listen(3000, () => {});
+  app.listen(config.PORT, () => {});
 }
 
 module.exports = {
