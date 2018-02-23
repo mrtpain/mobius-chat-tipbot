@@ -20,7 +20,7 @@ app.post('/mobius-webhook', (request, response) => {
 });
 
 app.get('/register-uid', (request, response) => {
-  if (config.MOBIUS_TOKEN_UID !== '') {
+  if (config.MOBIUS_TOKEN_UID) {
     response.status(405).send('MOBIUS_TOKEN_UID already defined!');
     return;
   }
@@ -29,7 +29,7 @@ app.get('/register-uid', (request, response) => {
 });
 
 app.post('/register-uid', async (request, response) => {
-  if (config.MOBIUS_TOKEN_UID !== '') {
+  if (config.MOBIUS_TOKEN_UID) {
     response.status(405).send('MOBIUS_TOKEN_UID already defined!');
     return;
   }
