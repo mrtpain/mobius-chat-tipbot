@@ -1,8 +1,8 @@
 const Command = require('./command');
 
 
-function isValidMessage() {
-  return true;
+function isValidMessage(message) {
+  return message && message.from && !message.from.is_bot;
 }
 
 

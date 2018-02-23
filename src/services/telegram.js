@@ -1,12 +1,13 @@
 const Telegraf = require('telegraf');
-const { COMMANDS, run } = require('../commands');
+const config = require('../config');
 const logger = require('../lib/logger');
 const telegram = require('../lib/telegram');
 const TelegramContext = require('../contexts/telegram');
+const { COMMANDS, run } = require('../commands');
 
 
 function start() {
-  const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
+  const bot = new Telegraf(config.TELEGRAM_BOT_TOKEN);
 
   const context = new TelegramContext();
 

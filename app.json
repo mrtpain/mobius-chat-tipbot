@@ -3,14 +3,17 @@
   "description": "",
   "repository": "https://github.com/mobius-network/mobius-chat-tipbot",
   "logo": "https://raw.githubusercontent.com/mobius-network/mobius-chat-tipbot/master/assets/logotype.png",
-  "keywords": ["mobius", "slack"],
+  "keywords": ["mobius", "slack", "telegram"],
   "env": {
     "SLACK_API_TOKEN": {},
+    "TELEGRAM_BOT_TOKEN": {},
     "MOBIUS_API_KEY": {},
     "MOBIUS_TOKEN_UID": {},
-    "DEFAULT_TIP_AMOUNT": {}
+    "DEFAULT_TIP_AMOUNT": {},
+    "MAX_TIP": {},
+    "MAX_TIP_LIFETIME": {},
   },
   "addons": [
-    "redistogo:nano"
+    "mongolab:sandbox"
   ]
 }
